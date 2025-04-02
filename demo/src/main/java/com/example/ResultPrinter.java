@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.List;
+
 import com.example.constants.SymbolsConstants;
 
 /**
@@ -25,22 +27,26 @@ public class ResultPrinter {
     /**
      * Represents the title for the classes column.
      */
-    public static final String TITLE_CLASSES = "Classes";
+    public static final String TITLE_CLASS = "Clase";
     /**
      * Represents the title for the methods column.
     */
-    public static final String TITLE_METHODS = "Métodos";
+    public static final String TITLE_METHODS_CLASS = "Total de métodos en la clase";
+        /**
+     * Represents the title for the total LOC of the class.
+    */
+    public static final String TITLE_TOTAL_LOC_CLASS = "Total de LOC físicas de la clase";
     /**
      * Represents the title for the total LOC.
     */
-    public static final String TITLE_TOTAL_LOC = "Total";
+    public static final String TITLE_TOTAL_LOC = "Total de LOC físicas del programa";
 
     /**
      * Defines the format template for a table column.
      * This format ensures that each column has a fixed width, aligning text properly.
      * The placeholders `%d` are used to specify column width dynamically.
      */
-    public static final String COLUMN_FORMAT_TEMPLATE = "| %%-%ds | %%-%ds | %%-%ds | %%-%ds |\n";
+    public static final String COLUMN_FORMAT_TEMPLATE = "| %%-%ds | %%-%ds | %%-%ds | %%-%ds | %%-%ds |\n";
 
     /**
      * Defines the horizontal padding used in table formatting.
@@ -53,37 +59,43 @@ public class ResultPrinter {
      * Prints a table in the console with the results of the line count.
      * 
      * @param programName Name of the analyzed program.
-     * @param methodCount Number of method declarations.
-     * @param classCount Number of class declarations.
+     * @param classInfoList List of ClassInfo objects for each class.
+     * @param totalLOC Total number of physical LOC in the program.
      */
-    public static void printResults(String programName, int methodCount, int classCount, int total) {
-        String tableText = buildTable(programName, methodCount, classCount, total);
+    public static void printResults(String programName, List<ClassInfo> classInfoList, int totalLOC) {
+        String tableText = buildTable(programName, classInfoList, totalLOC);
         System.out.println(tableText);
     }   
 
     /**
      * Builds a formatted table with the results of the line count.
      * 
-     * @param programName Name of the analyzed program.     
-     * @param methodCount Number of method declarations.
-     * @param classCount Number of class declarations.
+     * @param programName Name of the analyzed program.
+     * @param classInfoList List of ClassInfo objects for each class.
+     * @param totalLOC Total number of physical LOC in the program.
      * @return A formatted string representing the table with the data.
      */
-    private static String buildTable(String programName, int methodCount, int classCount, int total) {
+    private static String buildTable(String programName, List<ClassInfo> classInfoList, int totalLOC) {
 
         int maxProgramLength = getMaxColumnWidth(TITLE_PROGRAM, programName);
-        int maxPhysicalLength = getMaxColumnWidth(TITLE_METHODS, String.valueOf(methodCount));
-        int maxLogicalLength = getMaxColumnWidth(TITLE_CLASSES, String.valueOf(classCount));
-        int maxTotal = getMaxColumnWidth(TITLE_TOTAL_LOC, String.valueOf(total));
+        int maxClassNameLength = getMaxColumnWidthMultiple(TITLE_CLASS, classInfoList.stream().map(ClassInfo::getClassName).toList());
+        int maxMethodsLength = getMaxColumnWidthMultiple(TITLE_METHODS_CLASS, classInfoList.stream().map(ClassInfo::getMethodCount).map(Object::toString).toList());
+        int maxLOCClassLength =getMaxColumnWidthMultiple(TITLE_TOTAL_LOC_CLASS, classInfoList.stream().map(ClassInfo::getPhysicalLines).map(Object::toString).toList());
+        int maxLOCLenght = getMaxColumnWidth(TITLE_TOTAL_LOC, String.valueOf(totalLOC));
 
-        String headerFormat = createHeaderFormat(maxProgramLength, maxPhysicalLength, maxLogicalLength, maxTotal);
-        String separator = createSeparator(maxProgramLength, maxPhysicalLength, maxLogicalLength, maxTotal);
+        String headerFormat = createHeaderFormat(maxProgramLength, maxClassNameLength, maxMethodsLength, maxLOCClassLength, maxLOCLenght);
+        String separator = createSeparator(maxProgramLength, maxClassNameLength, maxMethodsLength, maxLOCClassLength, maxLOCLenght);
 
         StringBuilder table = new StringBuilder();
         table.append(separator);
-        table.append(String.format(headerFormat, TITLE_PROGRAM, TITLE_METHODS, TITLE_CLASSES, TITLE_TOTAL_LOC));
+        table.append(String.format(headerFormat, TITLE_PROGRAM, TITLE_CLASS, TITLE_METHODS_CLASS, TITLE_TOTAL_LOC_CLASS, TITLE_TOTAL_LOC));
         table.append(separator);
-        table.append(String.format(headerFormat, programName, methodCount, classCount, total));
+        
+
+        for (ClassInfo classInfo : classInfoList) {
+            table.append(String.format(headerFormat, programName, classInfo.getClassName(), classInfo.getMethodCount(), classInfo.getPhysicalLines(), totalLOC));
+        }
+
         table.append(separator);
         return table.toString();
     }
@@ -98,23 +110,39 @@ public class ResultPrinter {
     private static int getMaxColumnWidth(String title, String value) {
         return Math.max(title.length(), value.length());
     }
-
+    /**
+     * Calculates the maximum column width based on the length of the title and a list of values.
+     *
+     * @param title The title of the column.
+     * @param values The list of values to be displayed in the column.
+     * @return The maximum width required for the column.
+     */
+    private static int getMaxColumnWidthMultiple(String title, List<String> values) {
+        int maxLength = title.length();
+        for (String value : values) {
+            maxLength = Math.max(maxLength, value.length());
+        }
+        return maxLength;
+    }
     /**
      * Creates the header row of the table, formatting the column titles
      * with the appropriate column widths.
      *
      * @param maxProgramLength   The maximum width of the column for the program name.
-     * @param maxPhysicalLength  The maximum width of the column for the Physical LOC.
-     * @param maxLogicalLength   The maximum width of the column for the Logical LOC.
+     * @param maxClassNameLength  The maximum width of the column for the class ame.
+     * @param maxMethodsLength   The maximum width of the column for the number of methods.
+     * @param maxLOCClassLength   The maximum width of the column for the lines of code of the class.
+     * @param maxLOCLength   The maximum width of the column for the lines of code of the program.
      * @return A string representing the formatted header row of the table.
      */
-    private static String createHeaderFormat(int maxProgramLength, int maxPhysicalLength, int maxLogicalLength, int maxTotal) {
+    private static String createHeaderFormat(int maxProgramLength, int maxClassNameLength, int maxMethodsLength, int maxLOCClassLength, int maxLOCLenght) {
         String header = String.format(
             COLUMN_FORMAT_TEMPLATE,
             maxProgramLength,
-            maxPhysicalLength,
-            maxLogicalLength,
-            maxTotal
+            maxClassNameLength,
+            maxMethodsLength,
+            maxLOCClassLength,
+            maxLOCLenght
         );
         return header;
     }
@@ -124,19 +152,23 @@ public class ResultPrinter {
      * section based on the column widths.
      *
      * @param maxProgramLength   The maximum width of the column for the program name.
-     * @param maxPhysicalLength  The maximum width of the column for the Physical LOC.
-     * @param maxLogicalLength   The maximum width of the column for the Logical LOC.
+     * @param maxClassNameLength  The maximum width of the column for the class ame.
+     * @param maxMethodsLength   The maximum width of the column for the number of methods.
+     * @param maxLOCClassLength   The maximum width of the column for the lines of code of the class.
+     * @param maxLOCLength   The maximum width of the column for the lines of code of the program.
      * @return A string representing the separator line of the table.
      */
-    private static String createSeparator(int maxProgramLength, int maxPhysicalLength, int maxLogicalLength, int total) {
+    private static String createSeparator(int maxProgramLength, int maxClassNameLength, int maxMethodsLength, int maxLOCClassLength, int maxLOCLenght) {
         return SymbolsConstants.PLUS_SIGN + 
         SymbolsConstants.MINUS_SIGN.repeat(maxProgramLength + HORIZONTAL_PADDING) + 
         SymbolsConstants.PLUS_SIGN + 
-        SymbolsConstants.MINUS_SIGN.repeat(maxPhysicalLength + HORIZONTAL_PADDING) +
+        SymbolsConstants.MINUS_SIGN.repeat(maxClassNameLength + HORIZONTAL_PADDING) +
         SymbolsConstants.PLUS_SIGN + 
-        SymbolsConstants.MINUS_SIGN.repeat(maxLogicalLength + HORIZONTAL_PADDING) + 
+        SymbolsConstants.MINUS_SIGN.repeat(maxMethodsLength + HORIZONTAL_PADDING) + 
         SymbolsConstants.PLUS_SIGN +
-        SymbolsConstants.MINUS_SIGN.repeat(total + HORIZONTAL_PADDING) +
+        SymbolsConstants.MINUS_SIGN.repeat(maxLOCClassLength + HORIZONTAL_PADDING) +
+        SymbolsConstants.PLUS_SIGN +
+        SymbolsConstants.MINUS_SIGN.repeat(maxLOCLenght + HORIZONTAL_PADDING) +
         SymbolsConstants.PLUS_SIGN +
         "\n";
     }
