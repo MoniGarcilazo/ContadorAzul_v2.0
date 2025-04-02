@@ -26,13 +26,21 @@ public class ResultPrinter {
      * Represents the title for the classes column.
      */
     public static final String TITLE_CLASSES = "Classes";
+    /**
+     * Represents the title for the methods column.
+    */
+    public static final String TITLE_METHODS = "Métodos";
+    /**
+     * Represents the title for the total LOC.
+    */
+    public static final String TITLE_TOTAL_LOC = "Total";
 
     /**
      * Defines the format template for a table column.
      * This format ensures that each column has a fixed width, aligning text properly.
      * The placeholders `%d` are used to specify column width dynamically.
      */
-    public static final String COLUMN_FORMAT_TEMPLATE = "| %%-%ds | %%-%ds | %%-%ds |\n";
+    public static final String COLUMN_FORMAT_TEMPLATE = "| %%-%ds | %%-%ds | %%-%ds | %%-%ds |\n";
 
     /**
      * Defines the horizontal padding used in table formatting.
@@ -45,38 +53,38 @@ public class ResultPrinter {
      * Prints a table in the console with the results of the line count.
      * 
      * @param programName Name of the analyzed program.
-     * @param physicalLOC Number of physical lines of code (Physical LOC).
-     * @param logicalLOC Number of logical lines of code (Logical LOC).
+     * @param methodCount Number of method declarations.
+     * @param classCount Number of class declarations.
      */
-    public static void printResults(String programName, int physicalLOC, int classCount) {
-        String tableText = buildTable(programName, physicalLOC, classCount);
+    public static void printResults(String programName, int methodCount, int classCount, int total) {
+        String tableText = buildTable(programName, methodCount, classCount, total);
         System.out.println(tableText);
     }   
 
     /**
      * Builds a formatted table with the results of the line count.
      * 
-     * @param programName Name of the analyzed program.
-     * @param physicalLOC Number of physical lines of code (Physical LOC).
-     * @param logicalLOC Number of logical lines of code (Logical LOC).
+     * @param programName Name of the analyzed program.     
+     * @param methodCount Number of method declarations.
+     * @param classCount Number of class declarations.
      * @return A formatted string representing the table with the data.
      */
-    private static String buildTable(String programName, int physicalLOC, int logicalLOC) {
+    private static String buildTable(String programName, int methodCount, int classCount, int total) {
 
         int maxProgramLength = getMaxColumnWidth(TITLE_PROGRAM, programName);
-        int maxPhysicalLength = getMaxColumnWidth(TITLE_PHYSICAL_LOC, String.valueOf(physicalLOC));
-        int maxLogicalLength = getMaxColumnWidth(TITLE_CLASSES, String.valueOf(logicalLOC));
+        int maxPhysicalLength = getMaxColumnWidth(TITLE_METHODS, String.valueOf(methodCount));
+        int maxLogicalLength = getMaxColumnWidth(TITLE_CLASSES, String.valueOf(classCount));
+        int maxTotal = getMaxColumnWidth(TITLE_TOTAL_LOC, String.valueOf(total));
 
-        String headerFormat = createHeaderFormat(maxProgramLength, maxPhysicalLength, maxLogicalLength);
-        String separator = createSeparator(maxProgramLength, maxPhysicalLength, maxLogicalLength);
+        String headerFormat = createHeaderFormat(maxProgramLength, maxPhysicalLength, maxLogicalLength, maxTotal);
+        String separator = createSeparator(maxProgramLength, maxPhysicalLength, maxLogicalLength, maxTotal);
 
         StringBuilder table = new StringBuilder();
         table.append(separator);
-        table.append(String.format(headerFormat, TITLE_PROGRAM, TITLE_PHYSICAL_LOC, TITLE_CLASSES));
+        table.append(String.format(headerFormat, TITLE_PROGRAM, TITLE_METHODS, TITLE_CLASSES, TITLE_TOTAL_LOC));
         table.append(separator);
-        table.append(String.format(headerFormat, programName, physicalLOC, logicalLOC));
+        table.append(String.format(headerFormat, programName, methodCount, classCount, total));
         table.append(separator);
-
         return table.toString();
     }
 
@@ -100,12 +108,13 @@ public class ResultPrinter {
      * @param maxLogicalLength   The maximum width of the column for the Logical LOC.
      * @return A string representing the formatted header row of the table.
      */
-    private static String createHeaderFormat(int maxProgramLength, int maxPhysicalLength, int maxLogicalLength) {
+    private static String createHeaderFormat(int maxProgramLength, int maxPhysicalLength, int maxLogicalLength, int maxTotal) {
         String header = String.format(
             COLUMN_FORMAT_TEMPLATE,
             maxProgramLength,
             maxPhysicalLength,
-            maxLogicalLength
+            maxLogicalLength,
+            maxTotal
         );
         return header;
     }
@@ -119,13 +128,15 @@ public class ResultPrinter {
      * @param maxLogicalLength   The maximum width of the column for the Logical LOC.
      * @return A string representing the separator line of the table.
      */
-    private static String createSeparator(int maxProgramLength, int maxPhysicalLength, int maxLogicalLength) {
+    private static String createSeparator(int maxProgramLength, int maxPhysicalLength, int maxLogicalLength, int total) {
         return SymbolsConstants.PLUS_SIGN + 
         SymbolsConstants.MINUS_SIGN.repeat(maxProgramLength + HORIZONTAL_PADDING) + 
         SymbolsConstants.PLUS_SIGN + 
         SymbolsConstants.MINUS_SIGN.repeat(maxPhysicalLength + HORIZONTAL_PADDING) +
         SymbolsConstants.PLUS_SIGN + 
         SymbolsConstants.MINUS_SIGN.repeat(maxLogicalLength + HORIZONTAL_PADDING) + 
+        SymbolsConstants.PLUS_SIGN +
+        SymbolsConstants.MINUS_SIGN.repeat(total + HORIZONTAL_PADDING) +
         SymbolsConstants.PLUS_SIGN +
         "\n";
     }
