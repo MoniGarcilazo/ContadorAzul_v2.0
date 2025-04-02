@@ -33,9 +33,9 @@ public class JavaFile {
     private int physicalLines;
 
     /**
-     * The number of logical lines in the file.
+     * The number of classes in the file.
      */
-    private int logicalLines;
+    private int classCount;
 
     /**
      * Constructor to create an instance of JavaFile.
@@ -53,7 +53,7 @@ public class JavaFile {
         this.name = name;
         this.lines = FileManager.readLines(this.filePath);
         this.physicalLines = 0;
-        this.logicalLines = 0;
+        this.classCount = 0;
     }
 
     /**
@@ -133,17 +133,17 @@ public class JavaFile {
      *
      * @return The number of logical lines.
      */
-    public int getLogicalLines() {
-        return logicalLines;
+    public int getClassCount() {
+        return classCount;
     }
 
     /**
-     * Sets the number of logical lines in the file.
+     * Sets the number of classes in the file.
      *
-     * @param logicalLines The number of logical lines.
+     * @param classCount The number of classes.
      */
-    public void setLogicalLines(int logicalLines) {
-        this.logicalLines = logicalLines;
+    public void setClassCount(int classCount) {
+        this.classCount = classCount;
     }
 
     /**

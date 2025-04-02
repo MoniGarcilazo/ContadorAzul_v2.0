@@ -23,9 +23,9 @@ public class ResultPrinter {
     public static final String TITLE_PHYSICAL_LOC = "LOC Físicas";
 
     /**
-     * Represents the title for the logical lines of code (LOC) column.
+     * Represents the title for the classes column.
      */
-    public static final String TITLE_LOGICAL_LOC = "LOC Lógicas";
+    public static final String TITLE_CLASSES = "Classes";
 
     /**
      * Defines the format template for a table column.
@@ -48,8 +48,8 @@ public class ResultPrinter {
      * @param physicalLOC Number of physical lines of code (Physical LOC).
      * @param logicalLOC Number of logical lines of code (Logical LOC).
      */
-    public static void printResults(String programName, int physicalLOC, int logicalLOC) {
-        String tableText = buildTable(programName, physicalLOC, logicalLOC);
+    public static void printResults(String programName, int physicalLOC, int classCount) {
+        String tableText = buildTable(programName, physicalLOC, classCount);
         System.out.println(tableText);
     }   
 
@@ -65,14 +65,14 @@ public class ResultPrinter {
 
         int maxProgramLength = getMaxColumnWidth(TITLE_PROGRAM, programName);
         int maxPhysicalLength = getMaxColumnWidth(TITLE_PHYSICAL_LOC, String.valueOf(physicalLOC));
-        int maxLogicalLength = getMaxColumnWidth(TITLE_LOGICAL_LOC, String.valueOf(logicalLOC));
+        int maxLogicalLength = getMaxColumnWidth(TITLE_CLASSES, String.valueOf(logicalLOC));
 
         String headerFormat = createHeaderFormat(maxProgramLength, maxPhysicalLength, maxLogicalLength);
         String separator = createSeparator(maxProgramLength, maxPhysicalLength, maxLogicalLength);
 
         StringBuilder table = new StringBuilder();
         table.append(separator);
-        table.append(String.format(headerFormat, TITLE_PROGRAM, TITLE_PHYSICAL_LOC, TITLE_LOGICAL_LOC));
+        table.append(String.format(headerFormat, TITLE_PROGRAM, TITLE_PHYSICAL_LOC, TITLE_CLASSES));
         table.append(separator);
         table.append(String.format(headerFormat, programName, physicalLOC, logicalLOC));
         table.append(separator);
