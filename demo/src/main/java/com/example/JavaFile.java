@@ -1,6 +1,7 @@
 package com.example;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.constants.FileFormatConstants;
@@ -36,7 +37,8 @@ public class JavaFile {
      * The number of classes in the file.
      */
     private int classCount;
-     
+
+    private List<ClassInfo> classesInfo;
     /**
     * The number of methods in the class
     */
@@ -60,8 +62,8 @@ public class JavaFile {
         this.physicalLines = 0;
         this.classCount = 0;
         this.numberOfMethods = 0;
+        this.classesInfo = new ArrayList<>();
     }
-
     /**
      * Gets the directory path where the file is located.
      *
@@ -152,6 +154,7 @@ public class JavaFile {
         this.classCount = classCount;
     }
 
+
     /**
      * Checks if the file has a valid Java file extension.
      *
@@ -177,5 +180,12 @@ public class JavaFile {
      */
     public int getNumberOfMethods() {
         return this.numberOfMethods;
+    }
+
+    public void addClassInfo(String className, int methodCount, int physicalLines) {
+        this.classesInfo.add(new ClassInfo(className, methodCount, physicalLines));
+    }
+    public List<ClassInfo> getClassesInfo() {
+        return this.classesInfo;
     }
 }
