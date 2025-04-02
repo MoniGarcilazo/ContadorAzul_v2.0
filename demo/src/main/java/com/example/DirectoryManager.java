@@ -46,25 +46,26 @@ public class DirectoryManager {
         }
 
         this.getAllJavaFiles();
+        ClassCounter classCounter = new ClassCounter();
         PhysicalLineCounter physicalLineCounter = new PhysicalLineCounter();
-        LogicalLineCounter logicalLineCounter = new LogicalLineCounter();
+        // LogicalLineCounter logicalLineCounter = new LogicalLineCounter();
         int totalPhysicalLines = 0;
-        int totalLogicalLines = 0;
+        int totalClassCount= 0;
 
         for (JavaFile javaFile : this.javaFiles) {
             try {
                 FileFormatValidator.isValidFileFormat(javaFile);
                 javaFile.setPhysicalLines(physicalLineCounter.count(javaFile));
-                javaFile.setLogicalLines(logicalLineCounter.count(javaFile));
+                javaFile.setClassCount(classCounter.count(javaFile));
                 totalPhysicalLines += javaFile.getPhysicalLines();
-                totalLogicalLines += javaFile.getLogicalLines();
+                totalClassCount += javaFile.getClassCount();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
 
         String directoryName = this.getDirectoryName();
-        ResultPrinter.printResults(directoryName, totalPhysicalLines, totalLogicalLines);
+        ResultPrinter.printResults(directoryName, totalPhysicalLines, totalClassCount);
     }
 
     /**

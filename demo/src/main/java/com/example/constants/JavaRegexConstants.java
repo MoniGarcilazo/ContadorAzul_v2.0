@@ -91,7 +91,7 @@ public class JavaRegexConstants {
      * Example: "@Override", "@SuppressWarnings(\"unchecked\")".
      */
     public static final String ANNOTATION_REGEX = "^\\s*@\\w+(\\(.*\\))?\\s*$";
-
+    
     /**
      * Regular expression to match method declarations, including access modifiers,
      * return type, method name, parameters, and throws clause.
@@ -120,4 +120,42 @@ public class JavaRegexConstants {
      */
     public static final String CLASS_INSTANTIATION_REGEX = ".*\\bnew\\s+(([a-zA-Z0-9_]+\\.)" +
         "*[a-zA-Z0-9_]+(<[^>]+>)?\\s*\\([^)]*\\)).*";
+
+    /**
+     * Regular expression to match standard class declarations.
+     * Example: "public class MyClass {", "class MyClass {".
+     */
+    public static final String STANDARD_CLASS_DECLARATION_REGEX =
+        "^\\s*(public|protected|private)?\\s*(abstract|final|sealed|non-sealed)?\\s*class\\s+\\w+\\s*\\{";
+
+    /**
+     * Regular expression to match class declarations with generics.
+     * Example: "class MyClass<T> {".
+     */
+    public static final String GENERIC_CLASS_DECLARATION_REGEX =
+        "^\\s*(public|protected|private)?\\s*(abstract|final|sealed|non-sealed)?\\s*class\\s+\\w+\\s*<[^>]+>\\s*\\{";
+
+    /**
+     * Regular expression to match class declarations with inheritance.
+     * Example: "class MyClass extends ParentClass {".
+     */
+    public static final String CLASS_WITH_EXTENDS_REGEX =
+        "^\\s*(public|protected|private)?\\s*(abstract|final|sealed|non-sealed)?\\s*class\\s+\\w+\\s*(extends\\s+\\w+(\\s*<[^>]+>)?)?\\s*\\{";
+
+    /**
+     * Regular expression to match class declarations implementing interfaces.
+     * Example: "class MyClass implements Interface1, Interface2 {".
+     */
+    public static final String CLASS_WITH_IMPLEMENTS_REGEX =
+        "^\\s*(public|protected|private)?\\s*(abstract|final|sealed|non-sealed)?\\s*class\\s+\\w+\\s*(implements\\s+[\\w,\\s,<>]+)\\s*\\{";
+
+    /**
+     * Comprehensive regular expression to match any class declaration.
+     * This includes standard classes, generics, inheritance, and interfaces.
+     */
+    public static final String CLASS_DECLARATION_REGEX =
+        STANDARD_CLASS_DECLARATION_REGEX + "|" +
+        GENERIC_CLASS_DECLARATION_REGEX + "|" +
+        CLASS_WITH_EXTENDS_REGEX + "|" +
+        CLASS_WITH_IMPLEMENTS_REGEX;
 }
