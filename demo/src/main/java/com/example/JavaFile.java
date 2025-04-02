@@ -36,6 +36,11 @@ public class JavaFile {
      * The number of classes in the file.
      */
     private int classCount;
+     
+    /**
+    * The number of methods in the class
+    */
+    private int numberOfMethods;
 
     /**
      * Constructor to create an instance of JavaFile.
@@ -54,6 +59,7 @@ public class JavaFile {
         this.lines = FileManager.readLines(this.filePath);
         this.physicalLines = 0;
         this.classCount = 0;
+        this.numberOfMethods = 0;
     }
 
     /**
@@ -154,5 +160,22 @@ public class JavaFile {
      */
     public static boolean isValidFileType(String name) {
         return name.endsWith(FileFormatConstants.JAVA_FILE_TYPE);
+    }
+        /**
+     * Sets the number of methods in the file
+     * 
+     * @param numberOfMethods The number of methods
+     */
+    public void setNumberOfMethods(int numberOfMethods) { 
+        this.numberOfMethods = numberOfMethods;
+    }
+
+    /**
+     * Gets the number of methods in the file
+     *
+     * @return The number of methods in the file
+     */
+    public int getNumberOfMethods() {
+        return this.numberOfMethods;
     }
 }
