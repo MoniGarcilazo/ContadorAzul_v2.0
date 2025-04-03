@@ -9,14 +9,12 @@ public class App {
     public static void main(String[] args) throws FileException, IOException {
         Scanner scanner = new Scanner(System.in);
         boolean tryAgain = true;
-
         while (tryAgain) {
             System.out.print("Please enter the directory path: ");
             String directoryPath = scanner.nextLine().trim();
             if (directoryPath.isEmpty()) {
                 continue;
             }
-
             try {
                 DirectoryManager directoryManager = new DirectoryManager(directoryPath);
                 directoryManager.processDirectory();
