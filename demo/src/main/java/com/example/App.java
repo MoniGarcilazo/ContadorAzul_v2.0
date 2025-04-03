@@ -9,7 +9,6 @@ public class App {
     public static void main(String[] args) throws FileException, IOException {
         Scanner scanner = new Scanner(System.in);
         boolean tryAgain = true;
-        //demo\files\files2
         while (tryAgain) {
             System.out.print("Please enter the directory path: ");
             String directoryPath = scanner.nextLine().trim();
