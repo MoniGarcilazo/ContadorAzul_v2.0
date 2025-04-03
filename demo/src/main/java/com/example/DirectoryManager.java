@@ -48,7 +48,7 @@ public class DirectoryManager {
         this.getAllJavaFiles();
         ClassAnalyzer classCounter = new ClassAnalyzer();
         // MethodLineCounter methodLineCounter = new MethodLineCounter();
-        // PhysicalLineCounter physicalLineCounter = new PhysicalLineCounter();
+        PhysicalLineCounter physicalLineCounter = new PhysicalLineCounter();
         // LogicalLineCounter logicalLineCounter = new LogicalLineCounter();
         List<ClassInfo> classInfoList = new ArrayList<>();
         int totalLOC = 0;
@@ -57,7 +57,7 @@ public class DirectoryManager {
                 FileFormatValidator.isValidFileFormat(javaFile);
                 List<ClassInfo> fileClassInfo = classCounter.analyze(javaFile);
                 classInfoList.addAll(fileClassInfo);
-                totalLOC += javaFile.getLines().size();
+                totalLOC += physicalLineCounter.count(javaFile);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
