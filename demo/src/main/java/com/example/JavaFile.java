@@ -38,7 +38,11 @@ public class JavaFile {
      */
     private int classCount;
 
+    /**
+     * List of classes in the file.
+     */
     private List<ClassInfo> classesInfo;
+    
     /**
     * The number of methods in the class
     */

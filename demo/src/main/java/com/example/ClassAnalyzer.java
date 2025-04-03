@@ -22,7 +22,16 @@ public class ClassAnalyzer {
      */
     private Matcher matcher;
 
+     /**
+     * Instance of {@link PhysicalLineCounter} used to count physical lines 
+     * (excluding comments and empty lines) in a Java file.
+     */
     private final PhysicalLineCounter physicalLineCounter = new PhysicalLineCounter();
+
+    /**
+     * Instance of {@link MethodLineCounter} used to count the number of method 
+     * declarations in a Java file.
+     */
     private final MethodLineCounter methodLineCounter = new MethodLineCounter();
 
     /**
