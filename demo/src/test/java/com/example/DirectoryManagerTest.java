@@ -74,7 +74,6 @@ class DirectoryManagerTest {
             throw new RuntimeException(e);
         }
     }
-
     /**
      * Integration test to verify the processing of a directory, including file analysis and output.
      * @param tempDir a temporary directory provided by JUnit for storing test files.
@@ -145,7 +144,14 @@ class DirectoryManagerTest {
             System.setOut(originalOut);
 
             String output = outputStream.toString();
-            assertTrue(output.contains("| testDirTemp | 25          | 7           |"));
+            System.out.println(output);
+            assertTrue(output.contains(
+                        "+-------------+----------+------------------------------+----------------------------------+-----------------------------------+\n"+
+                        "| Programa    | Clase    | Total de métodos en la clase | Total de LOC físicas de la clase | Total de LOC físicas del programa |\n" +
+                        "+-------------+----------+------------------------------+----------------------------------+-----------------------------------+\n" +
+                        "| testDirTemp | Example  | 3                            | 14                               | 37                                |\n" +
+                        "| testDirTemp | Example2 | 2                            | 11                               | 37                                |\n" +
+                        "+-------------+----------+------------------------------+----------------------------------+-----------------------------------+"));
 
             Files.delete(javaFile1);
             Files.delete(javaFile2);

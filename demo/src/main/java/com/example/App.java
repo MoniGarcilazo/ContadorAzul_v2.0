@@ -16,7 +16,6 @@ public class App {
             if (directoryPath.isEmpty()) {
                 continue;
             }
-
             try {
                 DirectoryManager directoryManager = new DirectoryManager(directoryPath);
                 directoryManager.processDirectory();
