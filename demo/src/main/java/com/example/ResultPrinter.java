@@ -8,8 +8,9 @@ import com.example.constants.SymbolsConstants;
  * The ResultPrinter class is responsible for formatting and printing a table 
  * with the results of a program's line count.
  * 
- * <p>It prints a table in the console displaying the program name, the number 
- * of logical lines, and the number of physical lines of code.</p>
+ * <p>It prints a table in the console displaying the program name,
+ * the name of the classes, number of methods of each class, physical LOC of each class
+ * and total physical LOC.</p>
  * 
  */
 public class ResultPrinter {
@@ -28,14 +29,17 @@ public class ResultPrinter {
      * Represents the title for the classes column.
      */
     public static final String TITLE_CLASS = "Clase";
+
     /**
      * Represents the title for the methods column.
     */
     public static final String TITLE_METHODS_CLASS = "Total de métodos en la clase";
-        /**
+
+    /**
      * Represents the title for the total LOC of the class.
     */
     public static final String TITLE_TOTAL_LOC_CLASS = "Total de LOC físicas de la clase";
+
     /**
      * Represents the title for the total LOC.
     */

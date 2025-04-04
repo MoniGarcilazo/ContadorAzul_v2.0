@@ -34,8 +34,9 @@ public class DirectoryManager {
     }
 
     /**
-     * Processes the directory by validating it, retrieving all file paths, and counting the physical and logical lines
-     * in each file. The results are then printed.
+     * Processes the directory by validating it, retrieving all file paths, and counting the physical lines
+     * in each file. It also analyzes the classes and methods within the Java files.
+     * The results are then printed.
      *
      * @throws FileException If the directory does not exist or is not valid.
      * @throws IOException If an I/O error occurs during file processing.
