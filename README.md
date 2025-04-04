@@ -1,65 +1,77 @@
-# Line Counting Program
+# Contador
 
 Este proyecto consiste en un programa que cuenta las líneas lógicas y las líneas físicas en archivos de código fuente, omitiendo comentarios y líneas en blanco.
 
 ## Requisitos
 
-- Java 11 o superior
-- Maven para la construcción y empaquetado del proyecto (si decides generar el JAR desde el código fuente).
-- Sistema operativo Windows para ejecutar el archivo EXE.
+- Java 17 o superior  
+- Maven para la construcción y empaquetado del proyecto (si deseas compilar desde el código fuente)  
+- Para ejecutar el archivo `.exe`, se requiere sistema operativo **Windows**  
+- Para ejecutar el archivo `.jar`, se puede usar **Windows**, **macOS** o **Linux**
+
+## Archivos disponibles
+
+- `Contador-v2.0.exe`: ejecutable para Windows (no requiere Java)  
+- `Contador-v2.0.jar`: ejecutable multiplataforma (requiere Java instalado)
 
 ## Instalación y Ejecución
 
-1. Clona el repositorio:
-   ```sh
-   git clone <URL_DEL_REPOSITORIO>
-   cd demo
-   ```
-
-2. Compila el proyecto con Maven:
-   ```sh
-   mvn clean install
-   ```
-
-3. Ejecuta la aplicación:
-   ```sh
-   java -jar target/demo-1.0-SNAPSHOT.jar
-   ```
-
-## Ejecución del EXE (solo para Windows)
-### Instalación
-1. Descarga el archivo EXE:
-
-El archivo mi-app.exe se encuentra en el directorio target/ de tu proyecto. Si tienes el repositorio clonado, asegúrate de que el archivo .exe está disponible en target/.
-
-2. Transferencia del archivo EXE:
-
-Si prefieres, puedes copiar el archivo mi-app.exe a cualquier directorio en tu máquina y ejecutarlo directamente.
-
-## Ejecución del EXE
-1. Ejecuta el archivo EXE:
-
-Navega al directorio donde se encuentra el archivo mi-app.exe y haz doble clic sobre él. Esto ejecutará la aplicación sin necesidad de instalar Java en tu máquina, ya que está empaquetado como un ejecutable nativo de Windows.
-
+### 1. Clona el repositorio (opcional si ya tienes los archivos)
 ```sh
-cd target/
-./mi-app.exe
+git clone <URL_DEL_REPOSITORIO>
+cd demo
 ```
 
-Si no tienes un entorno gráfico, puedes ejecutar el EXE desde la línea de comandos también.
+### 2. Compila con Maven (opcional si ya tienes los ejecutables)
+```sh
+mvn clean install
+```
 
-## Pruebas
+## Ejecución en macOS o Windows (usando `Contador-v2.0.jar`)
 
-Para ejecutar las pruebas, usa:
+1. Asegúrate de tener Java instalado (versión 11 o superior).
+
+2. Abre la terminal y navega al directorio donde está el archivo:
+```sh
+cd <ruta_al_directorio>
+```
+
+3. Ejecuta el JAR:
+```sh
+java -jar Contador-v2.0.jar
+```
+
+## Ejecución en Windows (usando `Contador-v2.0.exe`)
+
+1. Navega al directorio donde se encuentra `Contador-v2.0.exe`.
+
+2. Haz doble clic sobre el archivo o ejecútalo desde la línea de comandos:
+```sh
+cd <ruta_al_directorio>
+Contador-v2.0.exe
+```
+
+> Este archivo no requiere tener Java instalado, ya que está empaquetado como ejecutable nativo para Windows.
+
+## Pruebas (si estás desarrollando o modificando el código)
+
+Para ejecutar las pruebas:
 ```sh
 mvn test
 ```
 
 ## Autores
-- Aaron Isaac Graniel Arzat
-- Fernando Joachín Prieto
-- David Peña Muñoz
-- Jose Luis Pooc Moo
+
+- Aaron Isaac Graniel Arzat  
+- Fernando Joachín Prieto  
+- David Peña Muñoz  
+- Jose Luis Pooc Moo  
 - Andrea Isabel Torres Perez
+- Josué Israel Canul Ordoñez
+- Mónica Garcilazo Cuevas
+- José Carlos Leo Fernández
+- Endrick Alfredo Pool Flores
+- Samuel David Rodríguez Coral
 
 
+  
