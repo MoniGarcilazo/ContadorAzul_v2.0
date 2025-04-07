@@ -35,6 +35,7 @@ public class ResultPrinterTest {
         "+-----------+-----------+------------------------------+----------------------------------+-----------------------------------+";
         
         String actualOutput = invokeBuildTable(programName, className, totalClassMethods,totalclassLOC,totalprogramLOC);
+        System.out.println(actualOutput);
         assertEquals(expectedOutput.length(), actualOutput.length());
         //assertEquals(expectedOutput, actualOutput); 
     }
@@ -62,7 +63,7 @@ public class ResultPrinterTest {
         "+---------------------------------+------------------------------+------------------------------+----------------------------------+-----------------------------------+";
     
         String actualOutput = invokeBuildTable(programName, className, totalClassMethods,totalclassLOC,totalprogramLOC);
-        //System.out.println(actualOutput);
+        System.out.println(actualOutput);
         //System.out.println(expectedOutput);
         assertEquals(expectedOutput.length(), actualOutput.length());
         //assertEquals(expectedOutput, actualOutput);
@@ -92,6 +93,7 @@ public class ResultPrinterTest {
                 "+----------+--------+------------------------------+----------------------------------+-----------------------------------+";
 
         String actualOutput = invokeBuildTable(programName, className, totalClassMethods, totalclassLOC, totalprogramLOC);
+        System.out.println(actualOutput);
         assertEquals(expectedOutput.length(), actualOutput.length());
         //assertEquals(expectedOutput, actualOutput);
     }
